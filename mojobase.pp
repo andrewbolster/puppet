@@ -1,5 +1,7 @@
 class mojobase
 {
+	package { "zlib1g": ensure => present, }
+	package { "zlib1g-dev": ensure => present, }
 	package { "vim": ensure => present, }
 	package { "byobu": ensure => present, }
 	package { "apache2": ensure => present, }
@@ -10,8 +12,8 @@ class mojobase
 			require => Package["apache2"],
 	}
 	package { "git-core": ensure => present, }
-	package { "ruby-rvm": ensure => present, }
 	package { "php-apc": ensure => present, }
+	package { "libssl-dev": ensure => present, }
 	package { "libapache2-mod-php5": ensure => present, }
 	package { "php5-memcache": ensure => present, }
 	package { "php5-mysql": ensure => present, }
