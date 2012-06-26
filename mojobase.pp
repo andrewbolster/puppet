@@ -32,5 +32,13 @@ class mojobase
 			ensure => running,
 			require => Package["mysql-server"],
 	}
+	package { "mongodb":
+		ensure => installed,
+	}
+	service { "mongodb":
+	    enable => true,
+		ensure => running,
+		require => Package["mongodb"],
+	}	
 }
 include mojobase
