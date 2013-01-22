@@ -81,6 +81,9 @@ class nodestuff
 		line => 'export NODE_PATH=/usr/lib/node_modules/application-name/node_modules'
 	}
 
+	exec { "/usr/bin/npm install -g testacular@canary": require => Package['npm'] }
+	exec { "/usr/bin/npm install -g phantomjs": require => Package['npm'] }
+
 	package { "xvfb": ensure => present, }
 	package { "mongodb":
 		ensure => installed,
