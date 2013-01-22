@@ -50,9 +50,6 @@ class nodestuff
 		content => 'deb http://dl.google.com/linux/chrome/deb/ stable main',
 		require => Apt::Key["linux_signing_key.pub"]
 	}
-	exec { "/usr/bin/apt-get update":
-		require => File['/etc/apt/sources.list.d/google.list']
-	}
 	package { "google-chrome-stable": ensure => present, require => Exec['/usr/bin/apt-get update'], }
 	package { "vim": ensure => present, }
 	package { "ufw": ensure => present, }
@@ -68,11 +65,11 @@ class nodestuff
 	package { "make": ensure => present, }
 
 	exec { "/usr/bin/add-apt-repository ppa:chris-lea/node.js": require => Package["software-properties-common"] }
-	exec { "/usr/bin/apt-get update; echo ''":
-		require => Exec['/usr/bin/add-apt-repository ppa:chris-lea/node.js']
+	exec { "/usr/bin/apt-get update":
+		require => [ Exec['/usr/bin/add-apt-repository ppa:chris-lea/node.js'], File['/etc/apt/sources.list.d/google.list'] ]
 	}
-	package { "nodejs": ensure => present, require => Exec["/usr/bin/apt-get update; echo ''"], }
-	package { "npm": ensure => present, require => Exec["/usr/bin/apt-get update; echo ''"], }
+	package { "nodejs": ensure => present, require => Exec["/usr/bin/apt-get update"], }
+	package { "npm": ensure => present, require => Exec["/usr/bin/apt-get update"], }
 
 	package { "libxml2-dev": ensure => present, }
 
