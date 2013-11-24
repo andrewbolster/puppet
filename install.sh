@@ -1,4 +1,5 @@
 #!bin/bash
+sudo apt-get update
 sudo apt-get install -y git
 git clone https://github.com/OddEssay/puppet.git
 sudo apt-get install -y puppet
