@@ -83,6 +83,7 @@ class ipsite {
   {
     'default':
     notify      => Service["apache2"],
+    require => Package["apache2"],
     path    => '/etc/apache2/sites-available/000-default.conf',
     ensure  => present,
     mode    => 0640,
