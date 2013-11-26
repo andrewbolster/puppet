@@ -96,9 +96,7 @@ class ipsite {
                   AllowOverride All
                   Order allow,deny
                   allow from all
-          </Directory>
-          <Directory /www/default>
-                  AllowOverride None
+                  Require all granted
           </Directory>
           ErrorLog /var/log/apache2/default_error.log
           LogLevel warn
