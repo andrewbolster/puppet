@@ -25,7 +25,8 @@ class ipsite {
   }
   file { 'mongo.conf':
     notify => Service['apache2'],
-    path => '/etc/php5/fpm/conf.d/mongo.ini',
+    require => Package['libapache2-mod-php5'],
+    path => '/etc/php5/apache2/conf.d/mongo.ini',
     content => "extension=mongo.so",
     mode    => 0640,
   }
