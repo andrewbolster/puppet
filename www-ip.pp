@@ -55,6 +55,14 @@ class ipsite {
   }
   file
   {
+    '/www/default/public':
+    ensure => 'directory',
+    mode => 2660,
+    owner => 'www-data',
+    group => 'www-data',
+  }
+  file
+  {
     '/etc/apache2/mods-enabled/headers.load':
     ensure => link,
     target => '/etc/apache2/mods-available/headers.load',
@@ -76,28 +84,26 @@ class ipsite {
     path    => '/etc/apache2/sites-available/000-default.conf',
     ensure  => present,
     mode    => 0640,
-    content => "NameVirtualHost *:80
-      Listen 80
-      <VirtualHost *:80>
+    content => "<VirtualHost *:80>
           ServerAdmin webmaster@paulfreeman.me.uk
           DocumentRoot /www/default/public
           <Directory />
                   Options FollowSymLinks
                   AllowOverride None
           </Directory>
-          <Directory /www/default>
+          <Directory /www/default/public>
                   Options Indexes FollowSymLinks MultiViews
-                  AllowOverride None
+                  AllowOverride All
                   Order allow,deny
                   allow from all
           </Directory>
-          <Directory /www/default/public>
-                  AllowOverride All
+          <Directory /www/default>
+                  AllowOverride None
           </Directory>
           ErrorLog /var/log/apache2/default_error.log
           LogLevel warn
           CustomLog /var/log/apache2/default_access.log combined
-  </VirtualHost>",
+</VirtualHost>",
   }
 }
 
