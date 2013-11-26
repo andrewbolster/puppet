@@ -45,7 +45,14 @@ class ipsite {
     owner => 'www-data',
     group => 'www-data',
   }
-
+  file
+  {
+    '/www/default':
+    ensure => 'directory',
+    mode => 2660,
+    owner => 'www-data',
+    group => 'www-data',
+  }
   file
   {
     '/etc/apache2/mods-enabled/headers.load':
@@ -60,37 +67,36 @@ class ipsite {
     ensure => link,
     target => '/etc/apache2/mods-available/rewrite.load',
     notify => Service["apache2"],
-    require => Package["apache2"]
+    require => Package["apache2"],
   }
   file
   {
-    'ip':
+    'default':
     notify	=> Service["apache2"],
-    path    => '/etc/apache2/sites-enabled/ip',
+    path    => '/etc/apache2/sites-available/000-default.conf',
     ensure  => present,
     mode    => 0640,
     content => "NameVirtualHost *:80
       Listen 80
       <VirtualHost *:80>
           ServerAdmin webmaster@paulfreeman.me.uk
-          ServerName pims2
-          DocumentRoot /www/ip/public
+          DocumentRoot /www/default/public
           <Directory />
                   Options FollowSymLinks
                   AllowOverride None
           </Directory>
-          <Directory /www/ip>
+          <Directory /www/default>
                   Options Indexes FollowSymLinks MultiViews
                   AllowOverride None
                   Order allow,deny
                   allow from all
           </Directory>
-          <Directory /www/ip/public>
+          <Directory /www/default/public>
                   AllowOverride All
           </Directory>
-          ErrorLog /var/log/apache2/ip_error.log
+          ErrorLog /var/log/apache2/default_error.log
           LogLevel warn
-          CustomLog /var/log/apache2/ip_access.log combined
+          CustomLog /var/log/apache2/default_access.log combined
   </VirtualHost>",
   }
 }
