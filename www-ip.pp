@@ -3,8 +3,10 @@ class { "php": }
 class ipsite {
   package { "apache2": ensure => present, }
 
+  package { "php5-dev": ensure => present }
   package { "php5-cli": ensure => present }
   package { "php-apc": ensure => present, }
+  package { "php5-json": ensure => present, }
   package { "libssl-dev": ensure => present, }
   package { "libapache2-mod-php5": ensure => present, }
 
@@ -80,28 +82,28 @@ class ipsite {
   file
   {
     'default':
-    notify	=> Service["apache2"],
+    notify      => Service["apache2"],
     path    => '/etc/apache2/sites-available/000-default.conf',
     ensure  => present,
     mode    => 0640,
     content => "<VirtualHost *:80>
-          ServerAdmin webmaster@paulfreeman.me.uk
-          DocumentRoot /www/default/public
-          <Directory />
-                  Options FollowSymLinks
-                  AllowOverride None
-          </Directory>
-          <Directory /www/default/public>
-                  Options Indexes FollowSymLinks MultiViews
-                  AllowOverride All
-                  Order allow,deny
-                  allow from all
-                  Require all granted
-          </Directory>
-          ErrorLog /var/log/apache2/default_error.log
-          LogLevel warn
-          CustomLog /var/log/apache2/default_access.log combined
-</VirtualHost>",
+            ServerAdmin webmaster@paulfreeman.me.uk
+            DocumentRoot /www/default/public
+            <Directory />
+                    Options FollowSymLinks
+                    AllowOverride None
+            </Directory>
+            <Directory /www/default/public>
+                    Options Indexes FollowSymLinks MultiViews
+                    AllowOverride All
+                    Order allow,deny
+                    allow from all
+                    Require all granted
+            </Directory>
+            ErrorLog /var/log/apache2/default_error.log
+            LogLevel warn
+            CustomLog /var/log/apache2/default_access.log combined
+  </VirtualHost>",
   }
 }
 
